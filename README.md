@@ -111,3 +111,42 @@ Looking to contribute to our Docker image but need some help? There's a few ways
 * File a public issue [here on GitHub](https://github.com/sonatype/docker-nexus3/issues)
 * Check out the [Nexus3](http://stackoverflow.com/questions/tagged/nexus3) tag on Stack Overflow
 * Check out the [Nexus Repository User List](https://groups.google.com/a/glists.sonatype.com/forum/?hl=en#!forum/nexus-users)
+
+##  Useful commands during development
+
+# Docker remove all dangling volumes
+docker volume rm `docker volume ls -q -f dangling=true`
+docker volume rm @(docker volume ls -q -f dangling=true)
+
+# Docker remove all dangling images
+docker rmi `docker images -q -f dangling=true`
+docker rmi -f @(docker images -q -f dangling=true)
+docker rm @(docker ps -aq)
+
+
+# general management commands
+docker exec -it nexus /bin/bash
+docker restart nexus
+docker logs -f nexus
+
+# cleanup
+docker rm -f nexus
+docker volume rm nexus-data
+docker rmi technobrain/nexus
+
+# create the persistent store
+docker volume create --name nexus-data
+
+# adjust the permissions for the stores
+chown -R 200:200 nexus-data/
+
+#run with  ssl support
+docker build --rm --squash=true --tag=technobrain/nexus .
+
+# run with ssl support
+docker run -d -p 8081:8081 -p 8443:8443 -v nexus-data:/nexus-data --name nexus -h nexus technobrain/nexus
+docker run -d -p 8081:8081 -p 8443:8443 -p 18443:18443 -v nexus-data:/nexus-data --name nexus -h nexus technobrain/nexus
+
+docker run -d -p 8081:8081 -p 8443:8443 -p 18443:18443 -v nexus-data:/nexus-data --name nexus -h nexus --restart=always technobrain/nexus
+
+docker login --username=admin --password=admin123 localhost:18443

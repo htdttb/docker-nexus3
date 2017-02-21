@@ -45,9 +45,9 @@ ENV NEXUS_HOME=${SONATYPE_DIR}/nexus \
 # configure ssl - https runtime
 ENV NEXUS_KEYSTORE ${NEXUS_DATA}/etc/ssl
 
-ARG KEYSTOREPASSWORD=Technobrainsm1
-ARG KEYMANAGERPASSWORD=Technobrainsm1
-ARG TRUSTSTOREPASSWORD=Technobrainsm1
+ARG KEYSTOREPASSWORD=changeit
+ARG KEYMANAGERPASSWORD=changeit
+ARG TRUSTSTOREPASSWORD=changeit
 
 CMD echo ${JAVA_DOWNLOAD_URL}
 
@@ -91,10 +91,10 @@ RUN /opt/java/bin/keytool -genkeypair \
 
 # configure nexus ssl - https
 RUN sed -i 's/<Set name="KeyStorePath">.*<\/Set>/<Set name="KeyStorePath">\/nexus-data\/etc\/ssl\/keystore.jks<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml \
-    && sed -i 's/<Set name="KeyStorePassword">.*<\/Set>/<Set name="KeyStorePassword">Technobrainsm1<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml \
-    && sed -i 's/<Set name="KeyManagerPassword">.*<\/Set>/<Set name="KeyManagerPassword">Technobrainsm1<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml \
+    && sed -i 's/<Set name="KeyStorePassword">.*<\/Set>/<Set name="KeyStorePassword">changeit<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml \
+    && sed -i 's/<Set name="KeyManagerPassword">.*<\/Set>/<Set name="KeyManagerPassword">changeit<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml \
     && sed -i 's/<Set name="TrustStorePath">.*<\/Set>/<Set name="TrustStorePath">\/nexus-data\/etc\/ssl\/keystore.jks<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml \
-    && sed -i 's/<Set name="TrustStorePassword">.*<\/Set>/<Set name="TrustStorePassword">Technobrainsm1<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml
+    && sed -i 's/<Set name="TrustStorePassword">.*<\/Set>/<Set name="TrustStorePassword">changeit<\/Set>/g' ${NEXUS_HOME}/etc/jetty/jetty-https.xml
         
 VOLUME ${NEXUS_DATA}
 
