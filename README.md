@@ -147,8 +147,6 @@ docker build --rm --squash=true --tag=technobrain/nexus .
 docker run -d -p 8081:8081 -p 8443:8443 -v nexus-data:/nexus-data --name nexus -h nexus technobrain/nexus
 docker run -d -p 8081:8081 -p 8443:8443 -p 18443:18443 -v nexus-data:/nexus-data --name nexus -h nexus technobrain/nexus
 
-
-docker run -d -p 8081:8081 -p 8443:8443 -p 18443:18443 -v nexus-data:/nexus-data --name nexus --restart=always technobrain/nexus
-
+docker run -d -p 8081:8081 -p 8443:8443 -p 18443:18443 -v nexus-data:/nexus-data --name nexus -h nexus --restart=always technobrain/nexus
 
 docker login --username=admin --password=admin123 localhost:18443
