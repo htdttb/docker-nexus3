@@ -99,7 +99,7 @@ RUN sed -i 's/<Set name="KeyStorePath">.*<\/Set>/<Set name="KeyStorePath">\/nexu
 VOLUME ${NEXUS_DATA}
 
 # TODO: add 18443 to exposed ports list 
-EXPOSE 8443
+EXPOSE 8081 8443
 USER nexus
 WORKDIR ${NEXUS_HOME}
 

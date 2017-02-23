@@ -114,39 +114,40 @@ Looking to contribute to our Docker image but need some help? There's a few ways
 
 ##  Useful commands during development
 
-# Docker remove all dangling volumes
+##  Docker remove all dangling volumes
 docker volume rm `docker volume ls -q -f dangling=true`
 docker volume rm @(docker volume ls -q -f dangling=true)
 
-# Docker remove all dangling images
+##  Docker remove all dangling images
 docker rmi `docker images -q -f dangling=true`
 docker rmi -f @(docker images -q -f dangling=true)
 docker rm @(docker ps -aq)
 
-
-# general management commands
-docker exec -it nexus /bin/bash
-docker restart nexus
-docker logs -f nexus
-
-# cleanup
+##  Cleanup
 docker rm -f nexus
 docker volume rm nexus-data
 docker rmi technobrain/nexus
 
-# create the persistent store
-docker volume create --name nexus-data
-
-# adjust the permissions for the stores
+##  Adjust the permissions for the stores
 chown -R 200:200 nexus-data/
 
-#run with  ssl support
+##  Build Image
 docker build --rm --squash=true --tag=technobrain/nexus .
 
-# run with ssl support
-docker run -d -p 8081:8081 -p 8443:8443 -v nexus-data:/nexus-data --name nexus -h nexus technobrain/nexus
-docker run -d -p 8081:8081 -p 8443:8443 -p 18443:18443 -v nexus-data:/nexus-data --name nexus -h nexus technobrain/nexus
+##  Create the persistent store
+docker volume create --name nexus-data
 
+##  Run with ssl support
 docker run -d -p 8081:8081 -p 8443:8443 -p 18443:18443 -v nexus-data:/nexus-data --name nexus -h nexus --restart=always technobrain/nexus
 
+##  General management commands
+docker logs -f nexus
+docker exec -it nexus /bin/bash
+docker restart nexus
+
+##  Authorisation is required for nexus docker repo
 docker login --username=admin --password=admin123 localhost:18443
+
+## Docker search keyword and then pull
+docker search localhost:18443/cuda
+docker pull localhost:18443/nvidia/cuda
